@@ -4,57 +4,63 @@ import org.springframework.http.ResponseEntity;
 
 public class BaseAppController {
 	protected ResponseEntity<BaseResponse> toResponse(Object data) {
-		BaseResponse baseResponse = new BaseResponse();
-		baseResponse.setData(data);
-		baseResponse.setStatusCode(200);
-		baseResponse.setError(false);
+		BaseResponse baseResponse = BaseResponse.builder()
+				.data(data)
+				.statusCode(200)
+				.isError(false)
+				.build();
 
 		return ResponseEntity.ok(baseResponse);
 	}
 
 	protected ResponseEntity<BaseResponse> toResponse(Object data, int statusCode) {
-		BaseResponse baseResponse = new BaseResponse();
-		baseResponse.setData(data);
-		baseResponse.setStatusCode(statusCode);
-		baseResponse.setError(false);
+		BaseResponse baseResponse = BaseResponse.builder()
+				.data(data)
+				.statusCode(statusCode)
+				.isError(false)
+				.build();
 
 		return ResponseEntity.ok(baseResponse);
 	}
 
 	protected ResponseEntity<BaseResponse> toResponse(Object data, String message) {
-		BaseResponse baseResponse = new BaseResponse();
-		baseResponse.setData(data);
-		baseResponse.setStatusCode(200);
-		baseResponse.setError(false);
-		baseResponse.setMessage(message);
+		BaseResponse baseResponse = BaseResponse.builder()
+				.data(data)
+				.statusCode(200)
+				.isError(false)
+				.message(message)
+				.build();
 
 		return ResponseEntity.ok(baseResponse);
 	}
 
 	protected ResponseEntity<BaseResponse> toResponse(Object data, int statusCode, String message) {
-		BaseResponse baseResponse = new BaseResponse();
-		baseResponse.setData(data);
-		baseResponse.setStatusCode(statusCode);
-		baseResponse.setError(false);
-		baseResponse.setMessage(message);
+		BaseResponse baseResponse = BaseResponse.builder()
+				.data(data)
+				.statusCode(statusCode)
+				.isError(false)
+				.message(message)
+				.build();
 
 		return ResponseEntity.ok(baseResponse);
 	}
 
 	protected ResponseEntity<BaseResponse> toResponse(Exception exception) {
-		BaseResponse baseResponse = new BaseResponse();
-		baseResponse.setStatusCode(500);
-		baseResponse.setError(true);
-		baseResponse.setMessage(exception.getLocalizedMessage());
+		BaseResponse baseResponse = BaseResponse.builder()
+				.statusCode(500)
+				.isError(true)
+				.message(exception.getLocalizedMessage())
+				.build();
 
 		return ResponseEntity.internalServerError().body(baseResponse);
 	}
 
 	protected ResponseEntity<BaseResponse> toResponse(Exception exception, int statusCode) {
-		BaseResponse baseResponse = new BaseResponse();
-		baseResponse.setStatusCode(statusCode);
-		baseResponse.setError(true);
-		baseResponse.setMessage(exception.getLocalizedMessage());
+		BaseResponse baseResponse = BaseResponse.builder()
+				.statusCode(statusCode)
+				.isError(true)
+				.message(exception.getLocalizedMessage())
+				.build();
 
 		return ResponseEntity.internalServerError().body(baseResponse);
 	}

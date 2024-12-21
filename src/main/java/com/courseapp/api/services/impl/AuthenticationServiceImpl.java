@@ -63,26 +63,31 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 throw new Exception("Username already exists!");
             }
 
-            User user = new User();
-            user.setEmail(registerRequest.getEmail());
-            user.setFirstName(registerRequest.getFirstName());
-            user.setLastName(registerRequest.getLastName());
-            user.setUsername(registerRequest.getUsername());
-            user.setPassword(registerRequest.getPassword());
+            User user = User.builder()
+                    .email(registerRequest.getEmail())
+                    .firstName(registerRequest.getFirstName())
+                    .lastName(registerRequest.getLastName())
+                    .username(registerRequest.getUsername())
+                    .password(registerRequest.getPassword())
+                    .build();
 
             if (registerRequest.getImageProfile() != null) {
                 String fileName = new Date().getTime() + "_" + StringUtils
                         .cleanPath(Objects.requireNonNull(registerRequest.getImageProfile().getOriginalFilename()));
+
                 Path uploadPath = Path.of(uploadDir);
+
                 if (!Files.exists(uploadPath)) {
                     Files.createDirectories(uploadPath);
                 }
+
                 Path filePath = uploadPath.resolve(fileName);
                 Files.copy(registerRequest.getImageProfile().getInputStream(), filePath);
                 user.setPathImageProfile(filePath.toString());
             }
 
             user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setCreatedBy("SYSTEM");
             user.setUpdatedBy("SYSTEM");
             userRepository.save(user);
 
@@ -110,8 +115,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             throw new BadCredentialsException("Password no valid!");
         }
 
-        AuthenticationResponse authenticationResponse = new AuthenticationResponse();
-        authenticationResponse.setToken(token);
+        AuthenticationResponse authenticationResponse = AuthenticationResponse.builder()
+                .token(token)
+                .build();
 
         return authenticationResponse;
     }

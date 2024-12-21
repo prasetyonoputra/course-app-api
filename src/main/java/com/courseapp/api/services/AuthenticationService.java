@@ -12,8 +12,6 @@ import com.courseapp.api.dto.responses.AuthenticationResponse;
 @Service
 public interface AuthenticationService extends UserDetailsService {
     AuthenticationResponse registerUser(RegisterRequestDto registerRequest) throws Exception;
-
     AuthenticationResponse loginUser(LoginRequestDto request);
-
     Map<String, Boolean> checkToken(Map<String, String> request) throws Exception;
 }
